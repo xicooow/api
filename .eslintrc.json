@@ -24,9 +24,12 @@
     "no-else-return": "warn",
     "space-unary-ops": "warn",
     "no-empty-function": "off",
-    "linebreak-style": "error",
     "no-trailing-spaces": "error",
     "@typescript-eslint/no-empty-function": "off",
+    "linebreak-style": [
+      "error",
+      "windows"
+    ],
     "quotes": [
       "error",
       "double"

@@ -9,10 +9,7 @@ export default async () => {
     console.log("Successfully connected to MongoDB");
   } catch (error) {
     throw new Error(
-      `Failed to connect to MongoDB: ${getErrorMessage(
-        error
-      )}`
+      `Failed to connect to MongoDB: ${getErrorMessage(error)}`
     );
   }
 };
-

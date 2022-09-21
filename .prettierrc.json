@@ -1,6 +1,6 @@
 {
   "semi": true,
-  "printWidth": 60,
+  "printWidth": 65,
   "endOfLine": "crlf",
   "arrowParens": "avoid",
   "singleAttributePerLine": true
