@@ -17,3 +17,4 @@ app.listen(APP_PORT, async () => {
   console.log(`App listening in port ${APP_PORT}`);
   await dbConnect();
 });
+

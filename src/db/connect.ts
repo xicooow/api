@@ -8,6 +8,11 @@ export default async () => {
     await mongoose.connect(`${APP_DB_URL}/core`);
     console.log("Successfully connected to MongoDB");
   } catch (error) {
-    throw new Error(`Failed to connect to MongoDB: ${getErrorMessage(error)}`);
+    throw new Error(
+      `Failed to connect to MongoDB: ${getErrorMessage(
+        error
+      )}`
+    );
   }
 };
+
