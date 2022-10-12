@@ -21,9 +21,6 @@ const userSchema = new Schema<User>(
     identity: {
       type: String,
       required: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
     },
     cre_date: {
       type: Date,

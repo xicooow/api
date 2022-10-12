@@ -4,19 +4,13 @@ import {
   buildErrorMessage,
   validBody,
 } from "../../helpers/util";
-import UserController from "../../controllers/user.controller";
+import LoginController from "../../controllers/login.controller";
 
-export const addUser = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
   const { body } = req;
 
   if (!validBody(body)) {
     return res.status(400).json(buildErrorMessage());
-  }
-
-  if (!body.name) {
-    return res
-      .status(400)
-      .json(buildErrorMessage("Missing name"));
   }
 
   if (!body.email) {
@@ -32,10 +26,10 @@ export const addUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const result = await UserController.create(body);
-    return res.status(201).json(result.toJSON());
+    const auth = await LoginController.authenticate(body);
+    return res.status(200).json(auth);
   } catch (error) {
     console.error(error);
-    return res.status(400).json(buildErrorMessage());
+    return res.status(401).json(buildErrorMessage());
   }
 };

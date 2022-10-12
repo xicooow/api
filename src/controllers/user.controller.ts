@@ -17,12 +17,12 @@ class UserController {
     await UserModel.findByIdAndDelete(userId);
   }
 
-  async create(data: AddUser) {
+  async create({ name, email, password }: AddUser) {
     const userData: User = {
-      name: data.name,
-      email: data.email,
+      name,
+      email,
       cre_date: new Date(),
-      identity: bcrypt.hashSync(data.password, 8),
+      identity: bcrypt.hashSync(password, 8),
     };
 
     const user = new UserModel(userData);

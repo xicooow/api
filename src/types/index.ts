@@ -18,3 +18,8 @@ export interface User {
 export interface AddUser extends Pick<User, "name" | "email"> {
   password: string;
 }
+
+export interface Login {
+  email: string;
+  password: string;
+}

@@ -8,3 +8,7 @@ export const buildErrorMessage = (
 ) => ({
   message: msg,
 });
+
+export const validBody = (body: any) => {
+  return body && typeof body === "object";
+};
