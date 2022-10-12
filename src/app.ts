@@ -4,6 +4,7 @@ import express from "express";
 /** load .env stuff */
 dotenv.config();
 
+import router from "./router";
 import dbConnect from "./db/connect";
 import { APP_PORT } from "./constants";
 
@@ -16,4 +17,5 @@ app.use(express.json());
 app.listen(APP_PORT, async () => {
   console.log(`App listening in port ${APP_PORT}`);
   await dbConnect();
+  router(app);
 });

@@ -23,13 +23,10 @@
     "no-debugger": "warn",
     "no-else-return": "warn",
     "space-unary-ops": "warn",
+    "no-useless-escape": "off",
     "no-empty-function": "off",
     "no-trailing-spaces": "error",
     "@typescript-eslint/no-empty-function": "off",
-    "linebreak-style": [
-      "error",
-      "windows"
-    ],
     "quotes": [
       "error",
       "double"
