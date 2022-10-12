@@ -24,6 +24,6 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "start": "tsnd --respawn --transpile-only src/app.ts"
+    "start": "tsnd --respawn --transpile-only --rs src/app.ts"
   }
 }
