@@ -26,15 +26,21 @@ export const login = async (req: Request, res: Response) => {
   }
 
   try {
-    const { _id, error } = await LoginController.authenticate(
+    const { error, token } = await LoginController.authenticate(
       body
     );
+
     if (error) {
-      return res.status(401).json(buildErrorMessage(error));
+      return res.status(403).json(buildErrorMessage(error));
     }
-    return res.status(200).json({ _id });
+
+    if (!token) {
+      return res.status(401).json(buildErrorMessage());
+    }
+
+    return res.status(200).json({ token });
   } catch (error) {
     console.error(error);
-    return res.status(401).json(buildErrorMessage());
+    return res.status(500).json(buildErrorMessage());
   }
 };

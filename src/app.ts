@@ -11,6 +11,9 @@ import { APP_PORT } from "./constants";
 const app = express();
 
 /** middlewares */
+import auth from "./middlewares/auth.middleware";
+
+app.use(auth);
 app.use(express.json());
 
 /** api server start */
