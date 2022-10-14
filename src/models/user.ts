@@ -32,7 +32,6 @@ const userSchema = new Schema<User>(
     versionKey: false,
     toJSON: {
       transform: (_doc, ret: Partial<WithId<User>>) => {
-        delete ret._id;
         delete ret.identity;
         return ret;
       },

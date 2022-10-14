@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Request, Response } from "express";
 
 import {
@@ -34,6 +35,51 @@ export const addUser = async (req: Request, res: Response) => {
   try {
     const result = await UserController.create(body);
     return res.status(201).json(result.toJSON());
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  if (!userId.trim()) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Missing user id param"));
+  }
+
+  try {
+    const userData = await UserController.getById(
+      new Types.ObjectId(userId)
+    );
+
+    if (!userData) {
+      return res
+        .status(404)
+        .json(buildErrorMessage("User not found"));
+    }
+
+    const user = userData.toJSON();
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const getUsers = async (_req: Request, res: Response) => {
+  try {
+    const usersData = await UserController.get(
+      {},
+      { cre_date: "desc" }
+    );
+
+    const users = usersData.map(user => user.toJSON());
+
+    return res.status(200).json(users);
   } catch (error) {
     console.error(error);
     return res.status(400).json(buildErrorMessage());

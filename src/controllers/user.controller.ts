@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { FilterQuery } from "mongoose";
+import { FilterQuery, Types } from "mongoose";
 
 import UserModel from "../models/user";
 import { AddUser, Sort, User } from "../types";
@@ -9,7 +9,7 @@ class UserController {
     return await UserModel.find(query).sort(sort);
   }
 
-  async getById(userId: string) {
+  async getById(userId: Types.ObjectId) {
     return await UserModel.findById(userId);
   }
 
