@@ -13,8 +13,8 @@ class UserController {
     return await UserModel.findById(userId);
   }
 
-  async remove(userId: string) {
-    await UserModel.findByIdAndDelete(userId);
+  async remove(userId: Types.ObjectId) {
+    return await UserModel.findByIdAndDelete(userId);
   }
 
   async create({ name, email, password }: AddUser) {

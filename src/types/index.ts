@@ -1,17 +1,24 @@
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
-import { SortOrder, ObjectId } from "mongoose";
+import { SortOrder, Types } from "mongoose";
 
-export type WithId<T> = T & {
-  _id: ObjectId;
-};
+export type WithId<T> = T & OId;
+
+export interface OId {
+  _id: Types.ObjectId;
+}
 
 export interface Sort {
   [key: string]: SortOrder;
 }
 
+export interface CustomJwtPayload
+  extends OId,
+    Pick<User, "name">,
+    JwtPayload {}
+
 export interface CustomRequest extends Request {
-  token: string | JwtPayload;
+  token: CustomJwtPayload;
 }
 
 export interface User {
@@ -25,7 +32,6 @@ export interface AddUser extends Pick<User, "name" | "email"> {
   password: string;
 }
 
-export interface Login {
-  email: string;
+export interface Login extends Pick<User, "email"> {
   password: string;
 }
