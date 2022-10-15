@@ -10,13 +10,13 @@ class LoginController {
   async authenticate({ email, password }: Login) {
     const user = await UserModel.findOne({ email });
     if (!user) {
-      return { error: "User not found" };
+      return { error: "User not found", status: 404 };
     }
 
     const { _id, name, identity } = user.toObject();
 
     if (!bcrypt.compareSync(password, identity)) {
-      return { error: "Wrong password" };
+      return { error: "Wrong password", status: 403 };
     }
 
     try {
@@ -26,9 +26,7 @@ class LoginController {
 
       return { token };
     } catch (error) {
-      return {
-        error: getErrorMessage(error),
-      };
+      throw new Error(getErrorMessage(error));
     }
   }
 }

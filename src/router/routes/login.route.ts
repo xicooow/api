@@ -26,12 +26,11 @@ export const login = async (req: Request, res: Response) => {
   }
 
   try {
-    const { error, token } = await LoginController.authenticate(
-      body
-    );
+    const { error, status, token } =
+      await LoginController.authenticate(body);
 
     if (error) {
-      return res.status(403).json(buildErrorMessage(error));
+      return res.status(status).json(buildErrorMessage(error));
     }
 
     if (!token) {
