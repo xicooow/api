@@ -3,6 +3,7 @@ import { Secret } from "jsonwebtoken";
 /** VARS */
 export const ENTRYPOINT = "/api";
 export const APP_PORT = process.env.PORT || 5000;
+export const DEFAULT_ORIGIN = "http://localhost:3000";
 export const APP_DB_URL =
   process.env.DB_URL || "mongodb://localhost:27017";
 export const UNPROTECTED_ROUTES = [
@@ -21,4 +22,15 @@ export const getJWTSecret = () => {
   }
 
   return secret as Secret;
+};
+
+export const getAllowedOrigins = () => {
+  let origins: string[] = [];
+
+  const envOrigins = process.env.ALLOWED_ORIGINS;
+  if (envOrigins) {
+    origins = envOrigins.split(", ");
+  }
+
+  return [DEFAULT_ORIGIN, ...origins];
 };

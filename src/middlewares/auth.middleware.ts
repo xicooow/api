@@ -47,7 +47,7 @@ export default async (
 
       (req as CustomRequest).token = decoded;
 
-      next();
+      return next();
     } catch (error) {
       console.error(error);
       res
