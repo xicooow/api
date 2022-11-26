@@ -12,13 +12,12 @@ export interface Sort {
   [key: string]: SortOrder;
 }
 
-export interface CustomJwtPayload
-  extends OId,
-    Pick<User, "name">,
-    JwtPayload {}
+export interface CustomJwtPayload extends JwtPayload {
+  userId: string;
+}
 
 export interface CustomRequest extends Request {
-  token: CustomJwtPayload;
+  data?: CustomJwtPayload;
 }
 
 export interface User {

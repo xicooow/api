@@ -8,12 +8,14 @@ import {
   getUser,
   getUsers,
   deleteUser,
+  getLoggedUser,
 } from "./routes/user.route";
 
 export default (app: Express) => {
   app.post(`${ENTRYPOINT}/login`, login);
   app.post(`${ENTRYPOINT}/user`, addUser);
   app.get(`${ENTRYPOINT}/users`, getUsers);
+  app.get(`${ENTRYPOINT}/logged`, getLoggedUser);
   app.get(`${ENTRYPOINT}/user/:userId`, getUser);
   app.delete(`${ENTRYPOINT}/user/:userId`, deleteUser);
 };

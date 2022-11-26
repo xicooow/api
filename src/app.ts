@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import helmet from "helmet";
+import morgan from "morgan";
 import express from "express";
 
 /** load .env stuff */
@@ -30,9 +31,12 @@ app.use(helmet.dnsPrefetchControl());
 /** cors */
 app.use(cors);
 
+/** logger */
+app.use(morgan("combined"));
+
 /** api server start */
 app.listen(APP_PORT, async () => {
-  console.log(`App listening in port ${APP_PORT}`);
+  console.info(`App listening in port ${APP_PORT}`);
   await dbConnect();
 
   app.use(auth);

@@ -34,7 +34,7 @@ export default async (
         getJWTSecret()
       ) as CustomJwtPayload;
 
-      const { _id: userId } = decoded;
+      const { userId } = decoded;
       const user = await UserController.getById(
         new Types.ObjectId(userId)
       );
@@ -45,7 +45,7 @@ export default async (
           .json(buildErrorMessage("Authentication invalid"));
       }
 
-      (req as CustomRequest).token = decoded;
+      (req as CustomRequest).data = decoded;
 
       return next();
     } catch (error) {

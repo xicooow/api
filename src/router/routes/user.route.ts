@@ -5,6 +5,7 @@ import {
   buildErrorMessage,
   validBody,
 } from "../../helpers/util";
+import { CustomRequest } from "../../types";
 import UserController from "../../controllers/user.controller";
 
 export const addUser = async (req: Request, res: Response) => {
@@ -91,6 +92,39 @@ export const getUser = async (req: Request, res: Response) => {
       return res
         .status(404)
         .json(buildErrorMessage("User not found"));
+    }
+
+    const user = userData.toJSON();
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const getLoggedUser = async (
+  req: Request,
+  res: Response
+) => {
+  const { data } = req as CustomRequest;
+  if (!data) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("No user logged"));
+  }
+
+  const { userId } = data;
+
+  try {
+    const userData = await UserController.getById(
+      new Types.ObjectId(userId)
+    );
+
+    if (!userData) {
+      return res
+        .status(404)
+        .json(buildErrorMessage("Logged user not found"));
     }
 
     const user = userData.toJSON();

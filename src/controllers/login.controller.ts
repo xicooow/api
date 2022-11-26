@@ -13,16 +13,20 @@ class LoginController {
       return { error: "User not found", status: 404 };
     }
 
-    const { _id, name, identity } = user.toObject();
+    const { _id, identity } = user.toObject();
 
     if (!bcrypt.compareSync(password, identity)) {
       return { error: "Wrong password", status: 403 };
     }
 
     try {
-      const token = jwt.sign({ _id, name }, getJWTSecret(), {
-        expiresIn: "1d",
-      });
+      const token = jwt.sign(
+        { userId: _id.toString() },
+        getJWTSecret(),
+        {
+          expiresIn: "1d",
+        }
+      );
 
       return { token };
     } catch (error) {
