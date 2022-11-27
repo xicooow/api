@@ -34,7 +34,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     if (!token) {
-      return res.status(401).json(buildErrorMessage());
+      return res.status(400).json(buildErrorMessage());
     }
 
     return res.status(200).json({ token });
