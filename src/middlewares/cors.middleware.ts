@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { DEFAULT_ORIGIN, getAllowedOrigins } from "../constants";
+import { getAllowedOrigins } from "../constants";
 
 export default (
   req: Request,
@@ -14,8 +14,7 @@ export default (
     headers["access-control-request-method"];
 
   let origin = headers.origin;
-  if (!origin || !allowedOrigins.includes(origin))
-    origin = DEFAULT_ORIGIN;
+  if (!origin || !allowedOrigins.includes(origin)) origin = "";
 
   res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader(
