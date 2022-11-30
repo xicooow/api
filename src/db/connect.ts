@@ -5,7 +5,7 @@ import { getErrorMessage } from "../helpers/util";
 
 export default async () => {
   try {
-    await mongoose.connect(`${APP_DB_URL}/core`);
+    await mongoose.connect(`${APP_DB_URL}`);
     console.info("Successfully connected to MongoDB");
   } catch (error) {
     throw new Error(
