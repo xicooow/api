@@ -3,11 +3,11 @@ import { Express } from "express";
 import { ENTRYPOINT } from "../constants";
 
 import { login } from "./routes/login.route";
+import { addShoppingList } from "./routes/shoppingList.route";
 import {
   addUser,
   getUser,
   getUsers,
-  deleteUser,
   getLoggedUser,
 } from "./routes/user.route";
 
@@ -17,5 +17,5 @@ export default (app: Express) => {
   app.get(`${ENTRYPOINT}/users`, getUsers);
   app.get(`${ENTRYPOINT}/logged`, getLoggedUser);
   app.get(`${ENTRYPOINT}/user/:userId`, getUser);
-  app.delete(`${ENTRYPOINT}/user/:userId`, deleteUser);
+  app.post(`${ENTRYPOINT}/shoppingList`, addShoppingList);
 };

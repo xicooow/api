@@ -45,7 +45,7 @@ export default async (
           .json(buildErrorMessage("Authentication invalid"));
       }
 
-      (req as CustomRequest).data = decoded;
+      (req as CustomRequest).authData = decoded;
 
       return next();
     } catch (error) {

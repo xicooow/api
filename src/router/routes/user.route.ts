@@ -42,38 +42,6 @@ export const addUser = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteUser = async (
-  req: Request,
-  res: Response
-) => {
-  const { userId } = req.params;
-
-  if (!userId.trim()) {
-    return res
-      .status(400)
-      .json(buildErrorMessage("Missing user id param"));
-  }
-
-  try {
-    const userData = await UserController.remove(
-      new Types.ObjectId(userId)
-    );
-
-    if (!userData) {
-      return res
-        .status(404)
-        .json(buildErrorMessage("User not found"));
-    }
-
-    const user = userData.toJSON();
-
-    return res.status(200).json(user);
-  } catch (error) {
-    console.error(error);
-    return res.status(400).json(buildErrorMessage());
-  }
-};
-
 export const getUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
@@ -107,18 +75,11 @@ export const getLoggedUser = async (
   req: Request,
   res: Response
 ) => {
-  const { data } = req as CustomRequest;
-  if (!data) {
-    return res
-      .status(400)
-      .json(buildErrorMessage("No user logged"));
-  }
-
-  const { userId } = data;
+  const { authData } = req as CustomRequest;
 
   try {
     const userData = await UserController.getById(
-      new Types.ObjectId(userId)
+      new Types.ObjectId(authData.userId)
     );
 
     if (!userData) {
