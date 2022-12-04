@@ -43,5 +43,6 @@ export interface Login
 export interface ShoppingList extends WithCreDate {
   title: string;
   user: Schema.Types.ObjectId;
+  columns: Map<string, string>;
   status: "active" | "inactive" | "archived";
 }

@@ -9,6 +9,42 @@ import {
 } from "../../helpers/util";
 import { CustomRequest } from "../../types";
 
+export const addShoppingListColumn = async (
+  req: Request,
+  res: Response
+) => {
+  const { body } = req;
+  const { shoppingListId } = req.params;
+
+  if (!validBody(body)) {
+    return res.status(400).json(buildErrorMessage());
+  }
+
+  if (!body.name) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Missing name"));
+  }
+
+  if (!body.label) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Missing label"));
+  }
+
+  try {
+    const result = await ShoppingListController.addColumn(
+      new Types.ObjectId(shoppingListId),
+      body.name,
+      body.label
+    );
+    return res.status(200).json(result.toJSON());
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
 export const addShoppingList = async (
   req: Request,
   res: Response

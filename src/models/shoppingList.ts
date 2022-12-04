@@ -24,6 +24,10 @@ const shoppingListSchema = new Schema<ShoppingList>(
       required: true,
       default: new Date(),
     },
+    columns: {
+      type: Map,
+      of: String,
+    },
   },
   {
     versionKey: false,
