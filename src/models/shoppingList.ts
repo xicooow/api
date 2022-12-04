@@ -1,6 +1,23 @@
 import { Schema, model } from "mongoose";
 
-import { ShoppingList } from "../types";
+import { ShoppingList, ShoppingItem } from "../types";
+
+const shoppingItemSchema = new Schema<ShoppingItem>({
+  done: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+  fields: {
+    type: Map,
+    of: String,
+  },
+  cre_date: {
+    type: Date,
+    required: true,
+    default: new Date(),
+  },
+});
 
 const shoppingListSchema = new Schema<ShoppingList>(
   {
@@ -27,6 +44,9 @@ const shoppingListSchema = new Schema<ShoppingList>(
     columns: {
       type: Map,
       of: String,
+    },
+    items: {
+      type: [shoppingItemSchema],
     },
   },
   {
