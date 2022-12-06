@@ -12,3 +12,11 @@ export const buildErrorMessage = (
 export const validBody = (body: any) => {
   return body && typeof body === "object";
 };
+
+export const isObject = (value: any) => {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    !Array.isArray(value)
+  );
+};
