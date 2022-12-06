@@ -11,7 +11,9 @@ import {
 } from "./routes/user.route";
 import {
   addShoppingList,
-  addShoppingListColumn,
+  addShoppingItem,
+  modifyShoppingListColumn,
+  deleteShoppingListColumn
 } from "./routes/shoppingList.route";
 
 export default (app: Express) => {
@@ -21,8 +23,16 @@ export default (app: Express) => {
   app.get(`${ENTRYPOINT}/logged`, getLoggedUser);
   app.get(`${ENTRYPOINT}/user/:userId`, getUser);
   app.post(`${ENTRYPOINT}/shoppingList`, addShoppingList);
-  app.post(
+  app.patch(
     `${ENTRYPOINT}/shoppingList/:shoppingListId/column`,
-    addShoppingListColumn
+    modifyShoppingListColumn
+  );
+  app.delete(
+    `${ENTRYPOINT}/shoppingList/:shoppingListId/column/:columnName`,
+    deleteShoppingListColumn
+  );
+  app.post(
+    `${ENTRYPOINT}/shoppingList/:shoppingListId/item`,
+    addShoppingItem
   );
 };

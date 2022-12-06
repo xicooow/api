@@ -6,10 +6,28 @@ import ShoppingListController from "../../controllers/shoppingList.controller";
 import {
   buildErrorMessage,
   validBody,
+  isObject
 } from "../../helpers/util";
 import { CustomRequest } from "../../types";
 
-export const addShoppingListColumn = async (
+export const deleteShoppingListColumn = async (
+  req: Request,
+  res: Response
+) => {
+  const { shoppingListId, columnName } = req.params;
+
+  try {
+    const result = await ShoppingListController.deleteColumn(
+      new Types.ObjectId(shoppingListId), columnName
+    );
+    return res.status(200).json(result.toJSON());
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const modifyShoppingListColumn = async (
   req: Request,
   res: Response
 ) => {
@@ -33,7 +51,7 @@ export const addShoppingListColumn = async (
   }
 
   try {
-    const result = await ShoppingListController.addColumn(
+    const result = await ShoppingListController.modifyColumn(
       new Types.ObjectId(shoppingListId),
       body.name,
       body.label
@@ -67,6 +85,43 @@ export const addShoppingList = async (
       user: new Types.ObjectId(authData.userId),
     });
     return res.status(201).json(result.toJSON());
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const addShoppingItem = async (
+  req: Request,
+  res: Response
+) => {
+  const { body } = req;
+  const { shoppingListId } = req.params;
+
+  if (!validBody(body)) {
+    return res.status(400).json(buildErrorMessage());
+  }
+
+  if (!body.values) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Missing values"));
+  }
+
+  if (!isObject(body.values)) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Invalid values"));
+  }
+
+  const values = Object.entries<string>(body.values);
+
+  try {
+    const result = await ShoppingListController.createItem(
+      new Types.ObjectId(shoppingListId),
+      values,
+    );
+    return res.status(200).json(result.toJSON());
   } catch (error) {
     console.error(error);
     return res.status(400).json(buildErrorMessage());
