@@ -93,6 +93,32 @@ export const updateShoppingList = async (
   }
 };
 
+export const getShoppingLists = async (
+  req: Request,
+  res: Response
+) => {
+  const { authData } = req as CustomRequest;
+
+  try {
+    const shoppingListsData = await ShoppingListController.get(
+      {
+        user: new Types.ObjectId(authData.userId),
+        status: "active",
+      },
+      { cre_date: "desc" }
+    );
+
+    const shoppingLists = shoppingListsData.map(shoppingList =>
+      shoppingList.toJSON()
+    );
+
+    return res.status(200).json(shoppingLists);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
 export const addShoppingList = async (
   req: Request,
   res: Response

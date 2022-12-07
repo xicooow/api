@@ -12,17 +12,22 @@ import {
 import {
   addShoppingList,
   addShoppingItem,
+  getShoppingLists,
   updateShoppingList,
   modifyShoppingListColumn,
   deleteShoppingListColumn,
 } from "./routes/shoppingList.route";
 
 export default (app: Express) => {
+  /** login */
   app.post(`${ENTRYPOINT}/login`, login);
+  /** user */
   app.post(`${ENTRYPOINT}/user`, addUser);
   app.get(`${ENTRYPOINT}/users`, getUsers);
   app.get(`${ENTRYPOINT}/logged`, getLoggedUser);
   app.get(`${ENTRYPOINT}/user/:userId`, getUser);
+  /** shoppingList */
+  app.get(`${ENTRYPOINT}/shoppingLists`, getShoppingLists);
   app.post(`${ENTRYPOINT}/shoppingList`, addShoppingList);
   app.patch(
     `${ENTRYPOINT}/shoppingList/:shoppingListId`,
@@ -36,6 +41,7 @@ export default (app: Express) => {
     `${ENTRYPOINT}/shoppingList/:shoppingListId/column/:columnName`,
     deleteShoppingListColumn
   );
+  /** shoppingItem */
   app.post(
     `${ENTRYPOINT}/shoppingList/:shoppingListId/item`,
     addShoppingItem

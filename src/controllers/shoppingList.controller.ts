@@ -1,10 +1,14 @@
-import { Types } from "mongoose";
+import { Types, FilterQuery } from "mongoose";
 
-import { ShoppingList } from "../types";
+import { ShoppingList, Sort } from "../types";
 import { getErrorMessage } from "../helpers/util";
 import ShoppingListModel from "../models/shoppingList";
 
 class ShoppingListController {
+  async get(query: FilterQuery<ShoppingList>, sort?: Sort) {
+    return await ShoppingListModel.find(query).sort(sort);
+  }
+
   async deleteColumn(
     shoppingListId: Types.ObjectId,
     columnName: string
