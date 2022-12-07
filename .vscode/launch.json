@@ -10,9 +10,7 @@
       "name": "Launch",
       "restart": true,
       "processId": "${command:PickProcess}",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**/*"]
     }
   ]
 }

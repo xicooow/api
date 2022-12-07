@@ -4,7 +4,7 @@ import { SortOrder, Types } from "mongoose";
 
 export interface WithId {
   readonly _id?: Types.ObjectId;
-};
+}
 
 export interface WithCreDate {
   cre_date: Date;
