@@ -83,7 +83,7 @@ class ShoppingListController {
       items: [],
       status: "active",
       cre_date: new Date(),
-      columns: new Map([["name", "Nome"]]),
+      columns: new Types.Map([["name", "Nome"]]),
     };
 
     const shoppingList = new ShoppingListModel(shoppingListData);
@@ -123,7 +123,7 @@ class ShoppingListController {
     shoppingList.items.push({
       done: false,
       cre_date: new Date(),
-      fields: new Map(values)
+      fields: new Types.Map(values)
     });
 
     try {

@@ -9,7 +9,7 @@ const shoppingItemSchema = new Schema<ShoppingItem>({
     required: true,
   },
   fields: {
-    type: Map,
+    type: Schema.Types.Map,
     of: String,
   },
   cre_date: {
@@ -42,7 +42,7 @@ const shoppingListSchema = new Schema<ShoppingList>(
       default: new Date(),
     },
     columns: {
-      type: Map,
+      type: Schema.Types.Map,
       of: String,
     },
     items: {
