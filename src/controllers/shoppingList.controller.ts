@@ -96,6 +96,39 @@ class ShoppingListController {
     }
   }
 
+  async update(
+    shoppingListId: Types.ObjectId,
+    {
+      title,
+      status,
+    }: Partial<Pick<ShoppingList, "title" | "status">>
+  ) {
+    try {
+      const updatedShoppingList =
+        await ShoppingListModel.findByIdAndUpdate(
+          shoppingListId,
+          {
+            $set: {
+              title,
+              status,
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+
+      if (!updatedShoppingList) {
+        throw new Error("Invalid shopping list provided");
+      }
+
+      return updatedShoppingList;
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+  }
+
   async createItem(
     shoppingListId: Types.ObjectId,
     values: [string, string][]
@@ -123,7 +156,7 @@ class ShoppingListController {
     shoppingList.items.push({
       done: false,
       cre_date: new Date(),
-      fields: new Types.Map(values)
+      fields: new Types.Map(values),
     });
 
     try {

@@ -10,7 +10,7 @@ export const buildErrorMessage = (
 });
 
 export const validBody = (body: any) => {
-  return body && typeof body === "object";
+  return body && isObject(body);
 };
 
 export const isObject = (value: any) => {
