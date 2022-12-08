@@ -1,10 +1,14 @@
-import { Types } from "mongoose";
+import { Types, FilterQuery } from "mongoose";
 
-import { ShoppingList } from "../types";
+import { ShoppingList, Sort } from "../types";
 import { getErrorMessage } from "../helpers/util";
 import ShoppingListModel from "../models/shoppingList";
 
 class ShoppingListController {
+  async get(query: FilterQuery<ShoppingList>, sort?: Sort) {
+    return await ShoppingListModel.find(query).sort(sort);
+  }
+
   async deleteColumn(
     shoppingListId: Types.ObjectId,
     columnName: string
@@ -83,7 +87,7 @@ class ShoppingListController {
       items: [],
       status: "active",
       cre_date: new Date(),
-      columns: new Map([["name", "Nome"]]),
+      columns: new Types.Map([["name", "Nome"]]),
     };
 
     const shoppingList = new ShoppingListModel(shoppingListData);
@@ -91,6 +95,39 @@ class ShoppingListController {
     try {
       const savedShoppingList = await shoppingList.save();
       return savedShoppingList;
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+  }
+
+  async update(
+    shoppingListId: Types.ObjectId,
+    {
+      title,
+      status,
+    }: Partial<Pick<ShoppingList, "title" | "status">>
+  ) {
+    try {
+      const updatedShoppingList =
+        await ShoppingListModel.findByIdAndUpdate(
+          shoppingListId,
+          {
+            $set: {
+              title,
+              status,
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+
+      if (!updatedShoppingList) {
+        throw new Error("Invalid shopping list provided");
+      }
+
+      return updatedShoppingList;
     } catch (error) {
       throw new Error(getErrorMessage(error));
     }
@@ -123,7 +160,7 @@ class ShoppingListController {
     shoppingList.items.push({
       done: false,
       cre_date: new Date(),
-      fields: new Map(values)
+      fields: new Types.Map(values),
     });
 
     try {

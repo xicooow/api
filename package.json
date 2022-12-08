@@ -31,6 +31,7 @@
     "prestart": "tsc",
     "start": "node dist/app.js",
     "lint": "eslint src",
+    "type-check": "tsc --noEmit",
     "dev": "tsnd --respawn --transpile-only --rs src/app.ts"
   }
 }

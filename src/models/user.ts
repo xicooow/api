@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import { User, WithId } from "../types";
+import { User } from "../types";
 import { EMAIL_REGEX } from "../constants";
 
 const userSchema = new Schema<User>(
@@ -31,7 +31,7 @@ const userSchema = new Schema<User>(
   {
     versionKey: false,
     toJSON: {
-      transform: (_doc, ret: Partial<WithId<User>>) => {
+      transform: (_doc, ret: Partial<User>) => {
         delete ret.identity;
         return ret;
       },

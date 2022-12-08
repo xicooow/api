@@ -1,10 +1,10 @@
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
-import { SortOrder, Schema, Types } from "mongoose";
+import { SortOrder, Types } from "mongoose";
 
-export type WithId<T> = T & {
-  _id: Types.ObjectId;
-};
+export interface WithId {
+  readonly _id?: Types.ObjectId;
+}
 
 export interface WithCreDate {
   cre_date: Date;
@@ -26,7 +26,7 @@ export interface CustomRequest extends Request {
   authData: CustomJwtPayload;
 }
 
-export interface User extends WithCreDate {
+export interface User extends WithId, WithCreDate {
   name: string;
   email: string;
   identity: string;
@@ -40,15 +40,15 @@ export interface Login
   extends WithPassword,
     Pick<User, "email"> {}
 
-export interface ShoppingList extends WithCreDate {
+export interface ShoppingList extends WithId, WithCreDate {
   title: string;
   items: ShoppingItem[];
-  user: Schema.Types.ObjectId;
-  columns: Map<string, string>;
+  user: Types.ObjectId;
+  columns: Types.Map<string>;
   status: "active" | "inactive" | "archived";
 }
 
-export interface ShoppingItem extends WithCreDate {
+export interface ShoppingItem extends WithId, WithCreDate {
   done: boolean;
   fields: ShoppingList["columns"];
 }

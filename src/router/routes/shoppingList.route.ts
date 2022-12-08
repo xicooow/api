@@ -6,7 +6,7 @@ import ShoppingListController from "../../controllers/shoppingList.controller";
 import {
   buildErrorMessage,
   validBody,
-  isObject
+  isObject,
 } from "../../helpers/util";
 import { CustomRequest } from "../../types";
 
@@ -18,7 +18,8 @@ export const deleteShoppingListColumn = async (
 
   try {
     const result = await ShoppingListController.deleteColumn(
-      new Types.ObjectId(shoppingListId), columnName
+      new Types.ObjectId(shoppingListId),
+      columnName
     );
     return res.status(200).json(result.toJSON());
   } catch (error) {
@@ -57,6 +58,61 @@ export const modifyShoppingListColumn = async (
       body.label
     );
     return res.status(200).json(result.toJSON());
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const updateShoppingList = async (
+  req: Request,
+  res: Response
+) => {
+  const { body } = req;
+  const { shoppingListId } = req.params;
+
+  if (!validBody(body)) {
+    return res.status(400).json(buildErrorMessage());
+  }
+
+  if (!body.title && !body.status) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Missing update values"));
+  }
+
+  try {
+    const result = await ShoppingListController.update(
+      new Types.ObjectId(shoppingListId),
+      { ...body }
+    );
+    return res.status(200).json(result.toJSON());
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const getShoppingLists = async (
+  req: Request,
+  res: Response
+) => {
+  const { authData } = req as CustomRequest;
+
+  try {
+    const shoppingListsData = await ShoppingListController.get(
+      {
+        user: new Types.ObjectId(authData.userId),
+        status: "active",
+      },
+      { cre_date: "desc" }
+    );
+
+    const shoppingLists = shoppingListsData.map(shoppingList =>
+      shoppingList.toJSON()
+    );
+
+    return res.status(200).json(shoppingLists);
   } catch (error) {
     console.error(error);
     return res.status(400).json(buildErrorMessage());
@@ -119,7 +175,7 @@ export const addShoppingItem = async (
   try {
     const result = await ShoppingListController.createItem(
       new Types.ObjectId(shoppingListId),
-      values,
+      values
     );
     return res.status(200).json(result.toJSON());
   } catch (error) {
