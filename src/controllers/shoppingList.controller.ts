@@ -6,7 +6,22 @@ import ShoppingListModel from "../models/shoppingList";
 
 class ShoppingListController {
   async get(query: FilterQuery<ShoppingList>, sort?: Sort) {
-    return await ShoppingListModel.find(query).sort(sort);
+    return await ShoppingListModel.find(query, {
+      _id: true,
+      title: true,
+    }).sort(sort);
+  }
+
+  async getById(shoppingListId: Types.ObjectId) {
+    const shoppingList = await ShoppingListModel.findById(
+      shoppingListId
+    );
+
+    if (!shoppingList) {
+      throw new Error("Invalid shopping list provided");
+    }
+
+    return shoppingList;
   }
 
   async deleteColumn(

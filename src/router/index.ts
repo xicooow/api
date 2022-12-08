@@ -12,6 +12,7 @@ import {
 import {
   addShoppingList,
   addShoppingItem,
+  getShoppingList,
   getShoppingLists,
   updateShoppingList,
   modifyShoppingListColumn,
@@ -28,6 +29,10 @@ export default (app: Express) => {
   app.get(`${ENTRYPOINT}/user/:userId`, getUser);
   /** shoppingList */
   app.get(`${ENTRYPOINT}/shoppingLists`, getShoppingLists);
+  app.get(
+    `${ENTRYPOINT}/shoppingList/:shoppingListId`,
+    getShoppingList
+  );
   app.post(`${ENTRYPOINT}/shoppingList`, addShoppingList);
   app.patch(
     `${ENTRYPOINT}/shoppingList/:shoppingListId`,

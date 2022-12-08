@@ -119,6 +119,27 @@ export const getShoppingLists = async (
   }
 };
 
+export const getShoppingList = async (
+  req: Request,
+  res: Response
+) => {
+  const { shoppingListId } = req.params;
+
+  try {
+    const shoppingListData =
+      await ShoppingListController.getById(
+        new Types.ObjectId(shoppingListId)
+      );
+
+    const shoppingList = shoppingListData.toJSON();
+
+    return res.status(200).json(shoppingList);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
 export const addShoppingList = async (
   req: Request,
   res: Response
