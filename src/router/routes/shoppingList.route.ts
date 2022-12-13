@@ -102,8 +102,8 @@ export const getShoppingLists = async (
   try {
     const shoppingListsData = await ShoppingListController.get(
       {
+        ...req.query,
         user: new Types.ObjectId(authData.userId),
-        status: "active",
       },
       { cre_date: "desc" }
     );
