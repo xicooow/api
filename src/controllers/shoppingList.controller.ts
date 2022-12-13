@@ -9,6 +9,7 @@ class ShoppingListController {
     return await ShoppingListModel.find(query, {
       _id: true,
       title: true,
+      cre_date: true,
     }).sort(sort);
   }
 

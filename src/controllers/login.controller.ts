@@ -16,7 +16,7 @@ class LoginController {
     const { _id, identity } = user.toObject();
 
     if (!bcrypt.compareSync(password, identity)) {
-      return { error: "Wrong password", status: 403 };
+      return { error: "Wrong password", status: 400 };
     }
 
     try {
