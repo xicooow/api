@@ -99,12 +99,12 @@ export const getShoppingLists = async (
   req: Request,
   res: Response
 ) => {
-  const { authData } = req as CustomRequest;
+  const { authData, query } = req as CustomRequest;
 
   try {
     const shoppingListsData = await ShoppingListController.get(
       {
-        ...req.query,
+        ...query,
         user: new Types.ObjectId(authData.userId),
       },
       { cre_date: "desc" }
