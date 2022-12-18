@@ -2,8 +2,10 @@ import { Request, Response } from "express";
 
 import {
   buildErrorMessage,
+  getErrorMessage,
   validBody,
 } from "../../helpers/util";
+import logger from "../../logger";
 import LoginController from "../../controllers/login.controller";
 
 export const login = async (req: Request, res: Response) => {
@@ -39,7 +41,7 @@ export const login = async (req: Request, res: Response) => {
 
     return res.status(200).json({ token });
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(500).json(buildErrorMessage());
   }
 };

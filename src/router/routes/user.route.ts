@@ -3,8 +3,10 @@ import { Request, Response } from "express";
 
 import {
   buildErrorMessage,
+  getErrorMessage,
   validBody,
 } from "../../helpers/util";
+import logger from "../../logger";
 import { CustomRequest } from "../../types";
 import UserController from "../../controllers/user.controller";
 
@@ -37,7 +39,7 @@ export const addUser = async (req: Request, res: Response) => {
     const result = await UserController.create(body);
     return res.status(201).json(result.toJSON());
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -66,7 +68,7 @@ export const getUser = async (req: Request, res: Response) => {
 
     return res.status(200).json(user);
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -92,7 +94,7 @@ export const getLoggedUser = async (
 
     return res.status(200).json(user);
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -108,7 +110,7 @@ export const getUsers = async (_req: Request, res: Response) => {
 
     return res.status(200).json(users);
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };

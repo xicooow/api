@@ -9,8 +9,12 @@ dotenv.config();
 import router from "./router";
 import dbConnect from "./db/connect";
 import { APP_PORT } from "./constants";
+import logger, { MORGAN_CONFIG } from "./logger";
 
 const app = express();
+
+/** logs */
+app.use(morgan(MORGAN_CONFIG.format, MORGAN_CONFIG.options));
 
 /** middlewares */
 import cors from "./middlewares/cors.middleware";
@@ -31,12 +35,9 @@ app.use(helmet.dnsPrefetchControl());
 /** cors */
 app.use(cors);
 
-/** logger */
-app.use(morgan("combined"));
-
 /** api server start */
 app.listen(APP_PORT, async () => {
-  console.info(`App listening in port ${APP_PORT}`);
+  logger.info(`App listening in port ${APP_PORT}`);
   await dbConnect();
 
   app.use(auth);

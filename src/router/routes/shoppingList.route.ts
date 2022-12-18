@@ -7,7 +7,9 @@ import {
   buildErrorMessage,
   validBody,
   isObject,
+  getErrorMessage,
 } from "../../helpers/util";
+import logger from "../../logger";
 import { CustomRequest } from "../../types";
 
 export const deleteShoppingListColumn = async (
@@ -23,7 +25,7 @@ export const deleteShoppingListColumn = async (
     );
     return res.status(200).json(result.toJSON());
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -59,7 +61,7 @@ export const modifyShoppingListColumn = async (
     );
     return res.status(200).json(result.toJSON());
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -88,7 +90,7 @@ export const updateShoppingList = async (
     );
     return res.status(200).json(result.toJSON());
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -114,7 +116,7 @@ export const getShoppingLists = async (
 
     return res.status(200).json(shoppingLists);
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -135,7 +137,7 @@ export const getShoppingList = async (
 
     return res.status(200).json(shoppingList);
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -163,7 +165,7 @@ export const addShoppingList = async (
     });
     return res.status(201).json(result.toJSON());
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };
@@ -200,7 +202,7 @@ export const addShoppingItem = async (
     );
     return res.status(200).json(result.toJSON());
   } catch (error) {
-    console.error(error);
+    logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
   }
 };

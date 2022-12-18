@@ -1,5 +1,6 @@
-import { Request } from "express";
+import { Options } from "morgan";
 import { JwtPayload } from "jsonwebtoken";
+import { Request, Response } from "express";
 import { SortOrder, Types } from "mongoose";
 
 export interface WithId {
@@ -20,6 +21,11 @@ export interface Sort {
 
 export interface CustomJwtPayload extends JwtPayload {
   userId: string;
+}
+
+export interface MorganConfig {
+  format: string;
+  options: Options<Request, Response>;
 }
 
 export interface CustomRequest extends Request {

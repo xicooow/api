@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
 import { NextFunction, Request, Response } from "express";
 
-import { buildErrorMessage } from "../helpers/util";
+import logger from "../logger";
+import {
+  buildErrorMessage,
+  getErrorMessage,
+} from "../helpers/util";
 import { CustomJwtPayload, CustomRequest } from "../types";
 import UserController from "../controllers/user.controller";
 import { getJWTSecret, UNPROTECTED_ROUTES } from "../constants";
@@ -49,7 +53,7 @@ export default async (
 
       return next();
     } catch (error) {
-      console.error(error);
+      logger.error(getErrorMessage(error));
       res
         .status(403)
         .json(buildErrorMessage("Authentication failed"));
