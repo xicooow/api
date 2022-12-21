@@ -1,8 +1,14 @@
 import { Types, FilterQuery } from "mongoose";
 
-import { ShoppingList, Sort } from "../types";
 import { getErrorMessage } from "../helpers/util";
 import ShoppingListModel from "../models/shoppingList";
+import {
+  ShoppingItem,
+  ShoppingItemActions,
+  ShoppingList,
+  Sort,
+  Values,
+} from "../types";
 
 class ShoppingListController {
   async get(query: FilterQuery<ShoppingList>, sort?: Sort) {
@@ -182,6 +188,71 @@ class ShoppingListController {
     try {
       const savedShoppingList = await shoppingList.save();
       return savedShoppingList;
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+  }
+
+  async updateItem(
+    shoppingListId: Types.ObjectId,
+    shoppingItemId: Types.ObjectId,
+    action: ShoppingItemActions,
+    values?: Values
+  ) {
+    let shoppingList;
+
+    try {
+      shoppingList = await ShoppingListModel.findById(
+        shoppingListId
+      );
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+
+    if (!shoppingList) {
+      throw new Error("Invalid shopping list provided");
+    }
+
+    switch (action) {
+      case "toggle":
+        shoppingList.items.every(item => {
+          if (item._id?.equals(shoppingItemId)) {
+            item.done = !item.done;
+            // break
+            return false;
+          }
+          //  continue
+          return true;
+        });
+        break;
+      case "edit":
+        if (values) {
+          shoppingList.items.every(item => {
+            if (item._id?.equals(shoppingItemId)) {
+              for (const [key, value] of values) {
+                if (item.fields.has(key)) {
+                  item.fields.set(key, value);
+                }
+              }
+              // break
+              return false;
+            }
+            //  continue
+            return true;
+          });
+        }
+        break;
+      default:
+        throw new Error("Invalid action provided");
+    }
+
+    try {
+      const savedShoppingList = await shoppingList.save();
+      const shoppingItem = savedShoppingList.items.find(item =>
+        item._id?.equals(shoppingItemId)
+      );
+
+      return shoppingItem as ShoppingItem;
     } catch (error) {
       throw new Error(getErrorMessage(error));
     }

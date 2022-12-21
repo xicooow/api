@@ -3,6 +3,10 @@ import { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
 import { SortOrder, Types } from "mongoose";
 
+/**
+ * INTERFACES
+ */
+
 export interface WithId {
   readonly _id?: Types.ObjectId;
 }
@@ -58,3 +62,10 @@ export interface ShoppingItem extends WithId, WithCreDate {
   done: boolean;
   fields: ShoppingList["columns"];
 }
+
+/**
+ * TYPES
+ */
+export type Values = ReturnType<typeof Object.entries<string>>;
+
+export type ShoppingItemActions = "edit" | "toggle";
