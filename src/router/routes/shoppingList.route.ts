@@ -10,7 +10,7 @@ import {
   getErrorMessage,
 } from "../../helpers/util";
 import logger from "../../logger";
-import { CustomRequest } from "../../types";
+import { CustomRequest, Values } from "../../types";
 
 export const deleteShoppingListColumn = async (
   req: Request,
@@ -201,6 +201,58 @@ export const addShoppingItem = async (
       values
     );
     return res.status(200).json(result.toJSON());
+  } catch (error) {
+    logger.error(getErrorMessage(error));
+    return res.status(400).json(buildErrorMessage());
+  }
+};
+
+export const updateShoppingItem = async (
+  req: Request,
+  res: Response
+) => {
+  const { body } = req;
+  const { shoppingListId, shoppingItemId } = req.params;
+
+  if (!validBody(body)) {
+    return res.status(400).json(buildErrorMessage());
+  }
+
+  if (!body.action) {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Missing action"));
+  }
+
+  if (body.action !== "edit" && body.action !== "toggle") {
+    return res
+      .status(400)
+      .json(buildErrorMessage("Invalid action"));
+  }
+
+  if (body.action === "edit" && !isObject(body.values)) {
+    return res
+      .status(400)
+      .json(
+        buildErrorMessage(
+          "Missing/Invalid values for edit action"
+        )
+      );
+  }
+
+  let values: Values | undefined;
+  if (body.values) {
+    values = Object.entries<string>(body.values);
+  }
+
+  try {
+    const result = await ShoppingListController.updateItem(
+      new Types.ObjectId(shoppingListId),
+      new Types.ObjectId(shoppingItemId),
+      body.action,
+      values
+    );
+    return res.status(200).json(result);
   } catch (error) {
     logger.error(getErrorMessage(error));
     return res.status(400).json(buildErrorMessage());
