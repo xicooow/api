@@ -258,3 +258,21 @@ export const updateShoppingItem = async (
     return res.status(400).json(buildErrorMessage());
   }
 };
+
+export const deleteShoppingItem = async (
+  req: Request,
+  res: Response
+) => {
+  const { shoppingListId, shoppingItemId } = req.params;
+
+  try {
+    await ShoppingListController.deleteItem(
+      new Types.ObjectId(shoppingListId),
+      new Types.ObjectId(shoppingItemId)
+    );
+    return res.status(200).json({});
+  } catch (error) {
+    logger.error(getErrorMessage(error));
+    return res.status(400).json(buildErrorMessage());
+  }
+};

@@ -257,6 +257,41 @@ class ShoppingListController {
       throw new Error(getErrorMessage(error));
     }
   }
+
+  async deleteItem(
+    shoppingListId: Types.ObjectId,
+    shoppingItemId: Types.ObjectId
+  ) {
+    let shoppingList;
+
+    try {
+      shoppingList = await ShoppingListModel.findById(
+        shoppingListId
+      );
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+
+    if (!shoppingList) {
+      throw new Error("Invalid shopping list provided");
+    }
+
+    const deleteItemIndex = shoppingList.items.findIndex(item =>
+      item._id?.equals(shoppingItemId)
+    );
+
+    if (deleteItemIndex === -1) {
+      throw new Error("Invalid shopping item provided");
+    }
+
+    shoppingList.items.splice(deleteItemIndex, 1);
+
+    try {
+      await shoppingList.save();
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+  }
 }
 
 export default new ShoppingListController();

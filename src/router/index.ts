@@ -16,6 +16,7 @@ import {
   getShoppingLists,
   updateShoppingList,
   updateShoppingItem,
+  deleteShoppingItem,
   modifyShoppingListColumn,
   deleteShoppingListColumn,
 } from "./routes/shoppingList.route";
@@ -55,5 +56,9 @@ export default (app: Express) => {
   app.patch(
     `${ENTRYPOINT}/shoppingList/:shoppingListId/item/:shoppingItemId`,
     updateShoppingItem
+  );
+  app.delete(
+    `${ENTRYPOINT}/shoppingList/:shoppingListId/item/:shoppingItemId`,
+    deleteShoppingItem
   );
 };
