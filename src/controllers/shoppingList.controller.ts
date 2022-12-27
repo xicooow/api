@@ -28,6 +28,10 @@ class ShoppingListController {
       throw new Error("Invalid shopping list provided");
     }
 
+    shoppingList.items.sort(
+      (a, b) => b.cre_date.getTime() - a.cre_date.getTime()
+    );
+
     return shoppingList;
   }
 
