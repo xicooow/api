@@ -113,7 +113,11 @@ class ShoppingListController {
       items: [],
       status: "active",
       cre_date: new Date(),
-      columns: new Types.Map([["name", "Nome"]]),
+      columns: new Types.Map([
+        // default columns
+        ["name", "Nome"],
+        ["price", "Preço"],
+      ]),
     };
 
     const shoppingList = new ShoppingListModel(shoppingListData);
